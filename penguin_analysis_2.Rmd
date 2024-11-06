@@ -1,0 +1,77 @@
+---
+title: "penguin_analysis_2"
+author: "Alice Murray"
+date: "2024-10-16"
+output: html_document
+---
+
+```{r}
+# Load libraries #
+
+library(tidyverse)
+library(palmerpenguins)
+library(here)
+library(janitor)
+```
+
+```{r}
+# ---- Loading our function file: ----
+
+source(here("functions", "cleaning.R"))
+
+```
+
+```{r}
+# ---- Loading raw data: ----
+
+penguins_raw <- read.csv(here("data", "penguins_raw.csv"))
+
+```
+
+
+```{r}
+# ---- Using our functions from the functions script ----
+
+cleaning_penguin_columns <- function(raw_data){
+  raw_data %>% 
+    clean_names() %>% 
+    shorten_species() %>% 
+    remove_empty(c("rows", "cols")) %>% 
+    select(-comments) %>% 
+  select(-starts_with("delta"))
+}
+
+# ------------------------------------------------------
+```
+
+
+```{r}
+colnames(penguins_raw)
+penguins_clean <- cleaning_penguin_columns(penguins_raw)
+colnames(penguins_clean)
+```
+
+```{r}
+# Managing package dependencies with renv #
+# install.packages("renv") - IN CONSOLE NOT SCRIPT
+# renv::init()
+# renv::snapshot()
+# renv::restore()
+
+# renv = record of the libraries we have installed
+# renv::snapshot() = snapshot of everything we have installed. 
+# This will create a file called renv.lock which will contain a record of all  # the libraries we have installed.
+
+# When someone else wants to run our code, they can download all our folders and subfolders, including our new lockfile. They can then restore the snapshot to ensure they have the same libraries installed
+
+
+
+```
+
+
+
+
+
+
+
+
